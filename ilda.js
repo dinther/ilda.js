@@ -386,8 +386,7 @@
             }
         }
         h(arrayWriter.bytes)
-    }
-    ;
+    };
     g.Writer = n;
     g.Utils = {};
     t.ILDA = g
