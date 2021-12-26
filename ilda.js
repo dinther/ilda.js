@@ -66,7 +66,6 @@ class ILDACLASS{
 
     readAsArrayBuffer(buffer) {
         this.#readBytes = new Uint8Array(buffer);
-        //this.#readBytes = buffer;
         this.#readPosition = 0;
         let frames = [];
         while(!this.#eof() && "ILDA" == this.#readString(4)) {
@@ -151,7 +150,7 @@ class ILDACLASS{
                         l = this.#readByte();
                         point.blanking = l>>6 & 1;
                         point.last = l>>7 & 1;
-                        point.color = new Color,
+                        point.color = {},
                         point.color.b = this.#readByte();
                         point.color.g = this.#readByte();
                         point.color.r = this.#readByte();
@@ -173,7 +172,7 @@ class ILDACLASS{
                         l = this.#readByte();
                         point.blanking = l>>6 & 1;
                         point.last = l>>7 & 1;
-                        point.color = new Color,
+                        point.color = {},
                         point.color.b = this.#readByte();
                         point.color.g = this.#readByte();
                         point.color.r = this.#readByte();
