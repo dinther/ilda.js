@@ -14,7 +14,7 @@ The following formats are supported:
 - Format 0 – 3D Coordinates with Indexed Color
 - Format 1 – 2D Coordinates with Indexed Color
 - Format 2 – Color Palette for Indexed Color Frames
-- Format 3 - DO NOT USE. UNAPPROVED FORMAT
+- Format 3 - Not implemented as it is not a formal format
 - Format 4 – 3D Coordinates with True Color
 - Format 5 – 2D Coordinates with True Color
 
