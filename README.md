@@ -71,7 +71,8 @@ function selectAndLoadFile(){
 
 The ILDA data is an array of frames each holding an array of points. Other properties such as colors vary depending on the ILDA format type.
 
-![image](https://user-images.githubusercontent.com/1192916/147377601-92e079f8-fba7-4b70-ad0b-a764c985d68c.png)
+![image](https://user-images.githubusercontent.com/1192916/147405044-57b6c805-c9c1-4745-b6af-669192f8fb3e.png)
+
 
 You can change the data object as you wish and save it back to file. for example like:
 
