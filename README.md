@@ -18,6 +18,11 @@ The following formats are supported:
 - Format 4 – 3D Coordinates with True Color
 - Format 5 – 2D Coordinates with True Color
 
+# demo
+![image](https://user-images.githubusercontent.com/1192916/147404880-2b100c17-208d-400a-8d69-da161e641927.png)
+
+[Click here to explore a demo page](https://dinther.github.io/ilda.js/) complete with example code how to access the ilda files on your local computer.
+
 # structure
 
 The precise data [can be found here](https://www.ilda.com/resources/StandardsDocs/ILDA_IDTF14_rev011.pdf) but a quick birds eye overview.
@@ -66,7 +71,8 @@ function selectAndLoadFile(){
 
 The ILDA data is an array of frames each holding an array of points. Other properties such as colors vary depending on the ILDA format type.
 
-![image](https://user-images.githubusercontent.com/1192916/147377601-92e079f8-fba7-4b70-ad0b-a764c985d68c.png)
+![image](https://user-images.githubusercontent.com/1192916/147405044-57b6c805-c9c1-4745-b6af-669192f8fb3e.png)
+
 
 You can change the data object as you wish and save it back to file. for example like:
 
@@ -92,6 +98,10 @@ In order to create good quality ILDA data it would help to understand a little o
 
 The laser beam is steered in the X and Y axis by two small mirrors that each turn on a single axis. These things are called Galvos or Galvometer. Think of them as a very fast voltmeters with a mirror instead of a needle.
 
+![image](https://user-images.githubusercontent.com/1192916/147404947-35413e4b-b6d8-4aec-9cb5-caa2d614a0d1.png)
+
+Here is a picture of a set.
+
 The line art drawn by a laser projector can look fairly complex and yet it is drawn many times per second in order to make it appear like a continuous line. These galvos need to move incredibly fast to achieve this but the laws of inertia put a limit to how quickly they can change direction.
 
 The capability of galvos is expressed in points per second they can handle within a certain mirror deflection range (ILDA specifies 8 degrees angle). Typically a galvo is said capable to handle around 30000 (thirty thousand) points per second. This suggests that an image made up of 1000 points can be displayed 30 times per second. Points per second is a rather unfortunate way to specify the capability of a galvo as it fails to take geometry into account.
@@ -105,6 +115,8 @@ It is important to be aware these physical limitations as you may otherwise be d
 My other software project BangOn will be dealing with these limitations in new and unique ways and hopefully squeeze even more performance out of existing laser projector equipment.
 
 # warning
+
+![image](https://user-images.githubusercontent.com/1192916/147405087-8a45e95b-e5c9-471e-ae22-c06c8c804898.png)
 
 Be careful when working with lasers, even the tiny laser pointers are dangerous. A direct hit on an eye WILL at a minimum damage it but most likely destroy the eye. Never ever look directly at the beam of a laser. This warning simply can not be repeated enough.
 
