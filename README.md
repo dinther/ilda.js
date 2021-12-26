@@ -97,6 +97,10 @@ In order to create good quality ILDA data it would help to understand a little o
 
 The laser beam is steered in the X and Y axis by two small mirrors that each turn on a single axis. These things are called Galvos or Galvometer. Think of them as a very fast voltmeters with a mirror instead of a needle.
 
+![image](https://user-images.githubusercontent.com/1192916/147404947-35413e4b-b6d8-4aec-9cb5-caa2d614a0d1.png)
+
+Here is a picture of a set.
+
 The line art drawn by a laser projector can look fairly complex and yet it is drawn many times per second in order to make it appear like a continuous line. These galvos need to move incredibly fast to achieve this but the laws of inertia put a limit to how quickly they can change direction.
 
 The capability of galvos is expressed in points per second they can handle within a certain mirror deflection range (ILDA specifies 8 degrees angle). Typically a galvo is said capable to handle around 30000 (thirty thousand) points per second. This suggests that an image made up of 1000 points can be displayed 30 times per second. Points per second is a rather unfortunate way to specify the capability of a galvo as it fails to take geometry into account.
