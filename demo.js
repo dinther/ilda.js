@@ -31,7 +31,6 @@ function loadFile(file){
     reader.onload = (evt)=>{
         if (evt.target.readyState == FileReader.DONE) {
             let bytes = new Uint8Array(evt.target.result);
-            //Uint8Array.prototype.toByteArray = function () { return Array.prototype.slice.call(this, 0); }
             myIldaData = ILDA.readAsArrayBuffer(evt.target.result);
             showDataOnPage(myIldaData);
         }

@@ -39,31 +39,28 @@ I don't do NPM or fantasy, coffee, tea or Coke script so you're on your own ther
 
 ```
 function selectAndLoadFile(){
-  window.showOpenFilePicker({
-    types: [
-      {description: 'ILD files', accept: {'vector/*': ['.ild']}},
-    ],
-    excludeAcceptAllOption: true,
-    multiple: false
-  }).then((fileHandles)=>{
-  fileHandles.forEach(fileHandle => {
-    fileHandle.getFile().then(file=>{
-      // Now we have a file handle. FINALLY
-      let reader = new FileReader();
-      reader.onload = (evt)=>{
-        if (evt.target.readyState == FileReader.DONE) {
-          let bytes = new Uint8Array(evt.target.result).toByteArray();
-          ILDA.Reader.fromByteArray(bytes, function(data) {
-            console.log(data)
-            // Do your thing here
-
-          });
-        }
-      }
-      reader.readAsArrayBuffer(file);
-      });
-    })
-  });
+    window.showOpenFilePicker({
+      types: [
+        {description: 'ILD files', accept: {'vector/*': ['.ild']}},
+      ],
+      excludeAcceptAllOption: true,
+      multiple: false
+    }).then((fileHandles)=>{
+        fileHandles.forEach(fileHandle => {
+            fileHandle.getFile().then(file=>{
+                // Now we have a file handle. FINALLY
+                let reader = new FileReader();
+                reader.onload = (evt)=>{
+                    if (evt.target.readyState == FileReader.DONE) {
+                        let bytes = new Uint8Array(evt.target.result);
+                        myIldaData = ILDA.readAsArrayBuffer(evt.target.result);
+                        showDataOnPage(myIldaData);
+                    }
+                }
+                reader.readAsArrayBuffer(file);
+            });
+        })
+    });
 }
 ```
 
@@ -75,16 +72,17 @@ You can change the data object as you wish and save it back to file. for example
 
 ```
 function saveILDADataTofile(data, fileName){
-    ILDA.Writer.toByteArray(data, function(data){
-        if (data.length == 0) throw new Error('data.length is zero. Something was not right in the data');
-        let fileData = new Uint8Array(data);
-        if (fileData.length > 0 ){
-            let a = document.createElement("a");
-            a.href = window.URL.createObjectURL(new Blob([fileData.buffer], {type: 'octet-stream'}));
-            a.download = fileName +'.ild';
-            a.click();
-        }
-    });
+    if (typeof(data='object')){
+        var buffer = ILDA.writeAsArrayBuffer(data);
+        if (buffer.length == 0) throw new Error('data.length is zero. Something was not right in the data');
+        let a = document.createElement("a");
+        a.href = window.URL.createObjectURL(new Blob([buffer], {type: 'octet-stream'}));
+        a.download = fileName +'.ild';
+        a.click();
+        return true;
+    } else {
+        return false;
+    }
 }
   ```
 
