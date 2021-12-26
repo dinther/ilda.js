@@ -18,6 +18,17 @@ The following formats are supported:
 - Format 4 – 3D Coordinates with True Color
 - Format 5 – 2D Coordinates with True Color
 
+# structure
+
+The precise data [can be found here](https://www.ilda.com/resources/StandardsDocs/ILDA_IDTF14_rev011.pdf) but a quick birds eye overview.
+An ILDA file is a binary file. It holds one or many frames which specify how the points held in that frame are defined.
+
+Depending on the Format type a Frame may hold a color palette but also copy right information for that frame.
+Initially it may seem strange that each frame holds this data but often ILDA data from various sources are sequentially combined into a laser show.
+
+Points may be 2D or 3D and their color might be from a color palette or directly defined.
+Typically the first point is blanked. This means that the laser should be off while moving to that point. Of course this all depends on the designer of the ilda artwork. There is an element of skill involved to create a good looking accurate representation by the laser projector.
+
 # install
 I don't do NPM or fantasy, coffee, tea or Coke script so you're on your own there. I just chuck it in the script tag.
 ```
@@ -44,9 +55,6 @@ function selectAndLoadFile(){
           let bytes = new Uint8Array(evt.target.result).toByteArray();
           ILDA.Reader.fromByteArray(bytes, function(data) {
             console.log(data)
-            // Yes! finally here is your ILDA data
-            // Sorry, I didn't invent this crazy ass API. Maybe I am doing it wrong.
-
             // Do your thing here
 
           });
@@ -66,18 +74,40 @@ The ILDA data is an array of frames each holding an array of points. Other prope
 You can change the data object as you wish and save it back to file. for example like:
 
 ```
-function saveILDADataTofile1(data, fileName){
-		ILDA.Writer.toByteArray(data, function(data){
-			if (data.length == 0) throw new Error('data.length is zero. Something was not right in the data');
-			let fileData = new Uint8Array(data);
-			if (fileData.length > 0 ){
-				let a = document.createElement("a");
-				a.href = window.URL.createObjectURL(new Blob([fileData.buffer], {type: 'octet-stream'}));
-				a.download = fileName +'.ild';
-				a.click();
-			}
-		});
-	}
+function saveILDADataTofile(data, fileName){
+    ILDA.Writer.toByteArray(data, function(data){
+        if (data.length == 0) throw new Error('data.length is zero. Something was not right in the data');
+        let fileData = new Uint8Array(data);
+        if (fileData.length > 0 ){
+            let a = document.createElement("a");
+            a.href = window.URL.createObjectURL(new Blob([fileData.buffer], {type: 'octet-stream'}));
+            a.download = fileName +'.ild';
+            a.click();
+        }
+    });
+}
   ```
+
+  # physics
+
+In order to create good quality ILDA data it would help to understand a little of the physics involved with laser projectors. A laser projector doesn't display a raster like a normal LCD projector. It is no good for watching TV but they are brilliant for drawing rich colored beams of light on surfaces or in air. Lasers are so bright that tiny particles in the air light up enough to form a beam of light.
+
+The laser beam is steered in the X and Y axis by two small mirrors that each turn on a single axis. These things are called Galvos or Galvometer. Think of them as a very fast voltmeters with a mirror instead of a needle.
+
+The line art drawn by a laser projector can look fairly complex and yet it is drawn many times per second in order to make it appear like a continuous line. These galvos need to move incredibly fast to achieve this but the laws of inertia put a limit to how quickly they can change direction.
+
+The capability of galvos is expressed in points per second they can handle within a certain mirror deflection range (ILDA specifies 8 degrees angle). Typically a galvo is said capable to handle around 30000 (thirty thousand) points per second. This suggests that an image made up of 1000 points can be displayed 30 times per second. Points per second is a rather unfortunate way to specify the capability of a galvo as it fails to take geometry into account.
+
+Considering inertia, it stands to reason that drawing a curve is less demanding than drawing a right angle or worse an acute angle. In fact, it is physically impossible. A right angle drawn by a laser projector is always a curve. The better the galvo the tinier the radius but a curve it is.
+
+Designers use various techniques by placing multiple points along a straight line and closer together when approaching a sharp turn. This has the effect of slowing the galvo down anticipating the turn similar to how you would drive a car. Often multiple points are placed on the very corner with the laser switched off to avoid a visible hotspot.
+
+It is important to be aware these physical limitations as you may otherwise be dissapointed with the results but more importantly, because it is possible to burnout the expensive galvos in your laser projector. Use your ears. When your galvos are screaming they are in pain. Turn it off. When they smoke, they are not having a chill night, they are overheating and burning out.
+
+My other software project BangOn will be dealing with these limitations in new and unique ways and hopefully squeeze even more performance out of existing laser projector equipment.
+
+# warning
+
+Be careful when working with lasers, even the tiny laser pointers are dangerous. A direct hit on an eye WILL at a minimum damage it but most likely destroy the eye. Never ever look directly at the beam of a laser. This warning simply can not be repeated enough.
 
 
