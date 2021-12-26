@@ -116,6 +116,8 @@ My other software project BangOn will be dealing with these limitations in new a
 
 # warning
 
+![image](https://user-images.githubusercontent.com/1192916/147405087-8a45e95b-e5c9-471e-ae22-c06c8c804898.png)
+
 Be careful when working with lasers, even the tiny laser pointers are dangerous. A direct hit on an eye WILL at a minimum damage it but most likely destroy the eye. Never ever look directly at the beam of a laser. This warning simply can not be repeated enough.
 
 
