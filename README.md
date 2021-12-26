@@ -18,6 +18,10 @@ The following formats are supported:
 - Format 4 – 3D Coordinates with True Color
 - Format 5 – 2D Coordinates with True Color
 
+# demo
+![image](https://user-images.githubusercontent.com/1192916/147404880-2b100c17-208d-400a-8d69-da161e641927.png)
+[Click here to explore a demo page](https://dinther.github.io/ilda.js/) complete with example code how to access the ilda files on your local computer.
+
 # structure
 
 The precise data [can be found here](https://www.ilda.com/resources/StandardsDocs/ILDA_IDTF14_rev011.pdf) but a quick birds eye overview.
