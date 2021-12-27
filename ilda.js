@@ -91,7 +91,7 @@ class ILDACLASS{
                         point.z = this.#readSignedShort();
                         l = this.#readShort();
                         point.colorIndex = l >> 0 & 127;
-                        point.color = this.#currentPalette[point.colorIndex ];
+                        point.color = this.#currentPalette[Math.min(this.#currentPalette.length - 1, point.colorIndex)];
                         point.blanking = 16384 == (l & 16384);
                         point.last = 32768 == (l & 32768);
                         frame.points.push(point);
@@ -104,17 +104,17 @@ class ILDACLASS{
                     frame.head = this.#readByte();
                     this.#readByte(); //reserved
                     frame.points=[];
-                    for (let point, i = 0; i < frame.pointTotal; i++){
+                    for (let point, l, i = 0; i < frame.pointTotal; i++){
                         point = {},
                         point.x = this.#readSignedShort(),
                         point.y = this.#readSignedShort(),
                         point.z = 0;
                         l = this.#readShort(),
                         point.colorIndex = l >> 0 & 127,
-                        point.color = this.#currentPalette[point.colorIndex ];
+                        point.color = this.#currentPalette[Math.min(this.#currentPalette.length - 1, point.colorIndex)];
                         point.blanking = 16384 == (l & 16384),
                         point.last = 32768 == (l & 32768),
-                        frame.points.push();
+                        frame.points.push(point);
                     }
                     break;
                 case this.#FrameTypes.COLOR_TABLE: //  2
@@ -276,6 +276,9 @@ class ILDACLASS{
         });
         let data = new Uint8Array(this.#writebytes);
         return data.buffer;
+    }
+    get defaultPalette(){
+        return this.#DefaultPalette;
     }
 }
 

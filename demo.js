@@ -5,7 +5,7 @@
 
 var myIldaData;
 var ctx;
-var axisResolution = 250;
+var axisResolution = 500;
 var axisScale = 1;
 var slide;
 
@@ -39,7 +39,7 @@ function loadFile(file){
 }
 
 function saveILDADataTofile(data, fileName){
-    if (typeof(data='object')){
+    if (typeof(data)=='object'){
         var buffer = ILDA.writeAsArrayBuffer(data);
         if (buffer.length == 0) throw new Error('data.length is zero. Something was not right in the data');
         let a = document.createElement("a");
@@ -68,7 +68,9 @@ function ildaPointToCanvas(value){
 function paintFrame(frameID){ 
     if (frameID < myIldaData.frames.length){
         let frame = myIldaData.frames[frameID];
-        ctx.clearRect(0, 0, 500, 500);
+        console.log(frame);
+        let showPoints = document.getElementById('showpoints').checked;
+        ctx.clearRect(0, 0, axisResolution * 2, axisResolution * 2);
         let lastPoint = frame.points[0];
         frame.points.forEach(point=>{
             ctx.beginPath();
@@ -77,8 +79,15 @@ function paintFrame(frameID){
                 ctx.moveTo(ildaPointToCanvas(lastPoint.x), ildaPointToCanvas(-lastPoint.y))
                 ctx.lineTo(ildaPointToCanvas(point.x), ildaPointToCanvas(-point.y));
             }
-            lastPoint = point;
             ctx.stroke();
+            if (showPoints){
+                ctx.strokeStyle = '#00ff00';
+                ctx.beginPath();
+                ctx.arc(ildaPointToCanvas(point.x), ildaPointToCanvas(-point.y), 5, 0, 2 * Math.PI);
+                ctx.closePath();
+                ctx.stroke();
+            }
+            lastPoint = point;            
         })
     }
 }
@@ -114,6 +123,9 @@ window.addEventListener('load', ()=>{
         paintFrame(evt.target.value);
     })
 
+    document.getElementById("showpoints").addEventListener('input', (evt)=>{
+        paintFrame(slide.value);
+    })   
 
     let can = document.getElementById("canvas");
     can.width = axisResolution * 2;
@@ -121,3 +133,29 @@ window.addEventListener('load', ()=>{
     axisScale =  1/32768 * axisResolution;
     ctx = can.getContext('2d');
 });
+
+function spiral(startAngle=0, endAngle=7200, startRadius=500, endRadius=25000, pointCount=1000){
+    data = {version:'ILDA5.JS', frames:[{owner:'dinther', project:'raster', index:0, total:1, pointTotal:1000, type:4, points:[]}]};
+    startAngle *= (Math.PI/180);
+    endAngle *= (Math.PI/180);
+    let stepAngle = (endAngle - startAngle) / pointCount;
+    let radiusStep = (endRadius - startRadius) / pointCount;
+    let dist = 0;
+    let angle = startAngle;
+    for (let i=0; i<pointCount; i++){
+        angle += stepAngle;
+        dist += radiusStep;
+        let radius = startRadius + dist;
+        let point = {};
+        point.x = Math.sin(angle) * radius;
+        point.y = Math.cos(angle) * radius;
+        point.z = 0;
+        point.blanking = (i==0);
+        point.last = (i == pointCount - 1);
+        point.color = {r:255, g:255, b: 255};
+        data.frames[0].points.push(point);
+    }
+    myIldaData = data;
+    paintFrame(0);
+    return data;
+}
