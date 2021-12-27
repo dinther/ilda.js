@@ -92,7 +92,7 @@ function saveILDADataTofile(data, fileName){
 }
   ```
 
-  # physics
+  # consider inertia in your design
 
 In order to create good quality ILDA data it would help to understand a little of the physics involved with laser projectors. A laser projector doesn't display a raster like a normal LCD projector. It is no good for watching TV but they are brilliant for drawing rich colored beams of light on surfaces or in air. Lasers are so bright that tiny particles in the air light up enough to form a beam of light.
 
